@@ -1,6 +1,6 @@
 # environment variables
 export DISPLAY_UNITS="mg/dl"
-export MONGO_CONNECTION="mongodb://MONGO_NS_USER:MONGO_NS_PASSWORD@localhost:27017/MONGO_NS_DB"
+export MONGO_CONNECTION="mongodb://MONGO_NS_USER:MONGO_NS_PASSWORD@localhost:27017/Nightscout"
 export DBSIZE_MAX=6000
 export INSECURE_USE_HTTP=true
 export PORT=47342

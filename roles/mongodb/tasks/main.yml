@@ -23,9 +23,9 @@
     enabled: true
     state: "started"
 
-# delete user: mongosh --eval 'db.dropUser("MONGO_NS_USER")' MONGO_NS_DB
+# delete user: mongosh --eval 'db.dropUser("MONGO_NS_USER")' Nightscout
 
 - name: "Create MongoDB User/DB"
   shell: >
-    mongosh --eval 'if (db.getUser("MONGO_NS_USER") == null){db.createUser({user: "MONGO_NS_USER", pwd: "MONGO_NS_PASSWORD", roles: [ { role: "readWrite", db: "MONGO_NS_DB" }]});}' MONGO_NS_DB
+    mongosh --eval 'if (db.getUser("MONGO_NS_USER") == null){db.createUser({user: "MONGO_NS_USER", pwd: "MONGO_NS_PASSWORD", roles: [ { role: "readWrite", db: "MONGO_NS_DB" }]});}' Nightscout
   register: output
