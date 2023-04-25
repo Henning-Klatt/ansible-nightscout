@@ -1,0 +1,45 @@
+- name: "install nodejs and npm"
+  apt:
+    name:
+      - nodejs
+      - npm
+    state: present
+    update_cache: yes
+
+- name: "Create user nightscout"
+  user:
+    name: nightscout
+    create_home: true
+    home: "/home/nightscout"
+    shell: /bin/bash
+
+- name: "Clone cgm-remote-monitor"
+  become: true
+  become_user: nightscout
+  git:
+    repo: https://github.com/nightscout/cgm-remote-monitor.git
+    dest: '/home/nightscout/cgm-remote-monitor'
+    force: true
+
+- name: "npm install"
+  community.general.npm:
+    path: /home/nightscout/cgm-remote-monitor
+
+- name: "Add start.sh file"
+  become: true
+  become_user: nightscout
+  copy:
+    src: start.sh
+    dest: /home/nightscout/cgm-remote-monitor
+    mode: u+x
+
+- name: "Add nightscout.service file"
+  copy:
+    src: nightscout.service
+    dest: /etc/systemd/system/nightscout.service
+
+- name: "Configure nightscout.service"
+  systemd:
+    name: "nightscout.service"
+    daemon_reload: true
+    enabled: true

@@ -1,0 +1,31 @@
+- name: "add MongoDB apt-key"
+  apt_key: 
+    url: https://pgp.mongodb.com/server-6.0.asc
+    state: present
+
+- name: "add MongoDB apt repository"
+  apt_repository: 
+    repo: 'deb https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse' 
+    state: present 
+    filename: MongoDB
+    update_cache: yes
+
+- name: "install MongoDB"
+  apt: 
+    name: mongodb-org
+    state: present
+    update_cache: yes
+
+- name: "configure MongoDB systemd"
+  systemd:
+    name: "mongod"
+    daemon_reload: true
+    enabled: true
+    state: "started"
+
+# delete user: mongosh --eval 'db.dropUser("MONGO_NS_USER")' MONGO_NS_DB
+
+- name: "Create MongoDB User/DB"
+  shell: >
+    mongosh --eval 'if (db.getUser("MONGO_NS_USER") == null){db.createUser({user: "MONGO_NS_USER", pwd: "MONGO_NS_PASSWORD", roles: [ { role: "readWrite", db: "MONGO_NS_DB" }]});}' MONGO_NS_DB
+  register: output

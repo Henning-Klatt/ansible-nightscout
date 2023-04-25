@@ -1,0 +1,12 @@
+[Unit]
+Description=Nightscout Service
+After=network.target
+
+[Service]
+Type=simple
+User=nightscout
+WorkingDirectory=/home/nightscout/cgm-remote-monitor
+ExecStart=/bin/bash /home/nightscout/cgm-remote-monitor/start.sh
+
+[Install]
+WantedBy=multi-user.target
